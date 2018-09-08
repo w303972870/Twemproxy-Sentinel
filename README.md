@@ -42,6 +42,21 @@ docker run -dit  --name twemproxy --net host -p 22121:22121  -v /data/redis/:/da
 docker run -dit -p 26379:26379  -p 22121:22121 -v /data/redis/:/data/ --name twemproxy-sentinel --net host -e START=both twemproxy-sentinel
 ```
 
+#### 我的/data/redis目录结构如下
+
+```
+├── redis
+│   ├── conf
+│   │   ├── client-reconfig.sh
+│   │   ├── redis_master.conf
+│   │   ├── redis_master.pid
+│   │   └── sentinel.conf
+│   └── logs
+│       ├── redis.log
+│       ├── redis_master.log
+│       └── sentinel_log.log
+```
+
 
 #### -e参数列表,如果通过-v指定配置文件，以下参数设置将都会失效
 |选项|默认值|说明|
