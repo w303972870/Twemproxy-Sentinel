@@ -64,7 +64,9 @@ docker run -dit -p 26379:26379 -v /data/redis/logs:/data/redis/logs/ --net host 
 
 ```
 port 26379 
-dir /data/redis/ 
+dir /data/conf/
+logfile "/data/logs/sentinel_log.log"
+
 protected-mode no 
 
 #master主机名为redis_master_group1，ip地址为192.168.123.2，端口为6370，当有1个slave同意重新选举master时，则集群重新选举master，同时，Sentinel会重写配置文件  
@@ -73,20 +75,20 @@ sentinel monitor redis_master_group1 192.168.123.2 6370 1
 #sentinel连接master的验证密码，最好保证集群中redis的实例的验证密码是相同的，以便Sentinel监控集群中redis的实例
 sentinel auth-pass redis_master_group1 123456 
 
-#当多久sentinel检测到Master不可达时，认为master宕机(3秒)
+# 当多久sentinel检测到Master不可达时，认为master宕机(3秒)
 sentinel down-after-milliseconds redis_master_group1 3000
 
-#当集群中master宕机时，Sentinels重新配置redis实例为master的超时时间，当超时时间仍没有配置完，Sentinels将redis实例重新配置成与parallel-syncs slave redis实例一样
+# 当集群中master宕机时，Sentinels重新配置redis实例为master的超时时间，当超时时间仍没有配置完，Sentinels将redis实例重新配置成与parallel-syncs slave redis实例一样
 sentinel failover-timeout redis_master_group1 3000
 
-#当集群中master宕机时，为了保证集群能可以接受查询请求，配置salve不进行选择，  能做为slave的数量  
+# 当集群中master宕机时，为了保证集群能可以接受查询请求，配置salve不进行选择，  能做为slave的数量  
 sentinel parallel-syncs redis_master_group1 1 
 
-#当master宕机时，sentinel的报警脚本
-#sentinel notification-script redis_master_group1 /data/redis/notify.sh  
+# 当master宕机时，sentinel的报警脚本
+#sentinel notification-script redis_master_group1 /data/conf/notify.sh  
 
-#当master宕机时，sentinel的通知clients的脚本，通知内容为，配置文件已将改变，当前redis实例的role，state信息，及新的master ip
-#参数顺序：<master-name> <role> <state> <from-ip> <from-port> <to-ip> <to-port>  
+# 当master宕机时，sentinel的通知clients的脚本，通知内容为，配置文件已将改变，当前redis实例的role，state信息，及新的master ip
+# 参数顺序：<master-name> <role> <state> <from-ip> <from-port> <to-ip> <to-port>  
 sentinel client-reconfig-script redis_master_group1 /data/conf/client-reconfig.sh
 
 sentinel monitor redis_master_group2 192.168.123.3 6370 1 
@@ -102,6 +104,7 @@ sentinel down-after-milliseconds redis_master_group3 3000
 sentinel failover-timeout redis_master_group3 3000
 sentinel parallel-syncs redis_master_group3 1
 sentinel client-reconfig-script redis_master_group3 /data/conf/client-reconfig.sh
+
 
 
 ```

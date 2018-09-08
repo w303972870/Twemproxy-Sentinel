@@ -5,13 +5,13 @@ if [ "$START" == "redis" ]; then
         sed -i "s/unixsocket \/run\/redis\/redis.sock/#unixsocket \/run\/redis\/redis.sock/g" /etc/redis.conf ;
         sed -i "s/unixsocketperm 770/#unixsocketperm 770/g" /etc/redis.conf ;
     else
-        sed -i "s/unixsocket \/run\/redis\/redis.sock/unixsocket \/data\/redis\/redis.sock/g" /etc/redis.conf ;        
+        sed -i "s/unixsocket \/run\/redis\/redis.sock/unixsocket \/data\/redis.sock/g" /etc/redis.conf ;        
     fi
 
     sed -i "s/protected-mode yes/protected-mode $PROTECTED_MODE/g" /etc/redis.conf ;
     sed -i "s/bind 127\.0\.0\.1/bind $REDIS_BIND_IP/g" /etc/redis.conf ;
     sed -i "s/port 6379/port $REDIS_PORT/g" /etc/redis.conf ;
-    sed -i "s/\/var\/log\/redis\/redis\.log/\/data\/redis\/logs\/redis\.log/g" /etc/redis.conf ;
+    sed -i "s/\/var\/log\/redis\/redis\.log/\/data\/logs\/redis\.log/g" /etc/redis.conf ;
     if [ "$REDIS_REQUIREPASS" != "0" ]; then
         echo 1;
         sed -i "s/\# requirepass foobared/requirepass $REDIS_REQUIREPASS/g" /etc/redis.conf ;
@@ -28,6 +28,10 @@ if [ "$START" == "redis" ]; then
     redis-server /etc/redis.conf
 fi
 
+if [ "$START" == "both" ]; then
+   nutcracker -c /data/conf/redis_master.conf -p /data/conf/redis_master.pid -o /data/logs/redis_master.log -d
+fi
+
 if [ "$START" == "sentinel" ] || [ "$START" == "both" ]; then
     sed -i "s/\$SENTINEL_LISTION_SERVER_NAME/$SENTINEL_LISTION_SERVER_NAME/g" /data/conf/sentinel.conf
 	sed -i "s/\$SENTINEL_LISTION_SERVER_IP/$SENTINEL_LISTION_SERVER_IP/g" /data/conf/sentinel.conf
@@ -39,9 +43,8 @@ if [ "$START" == "sentinel" ] || [ "$START" == "both" ]; then
 	redis-server /data/conf/sentinel.conf --sentinel
 fi
 
-if [ "$START" == "twemproxy" ] || [ "$START" == "both" ]; then
-	nutcracker -c /data/conf/redis_master.conf -p /data/conf/redis_master.pid -o /data/logs/redis_master.log
+if [ "$START" == "twemproxy" ]; then
+    nutcracker -c /data/conf/redis_master.conf -p /data/conf/redis_master.pid -o /data/logs/redis_master.log 
 fi
-
 
 

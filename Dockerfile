@@ -23,8 +23,6 @@ RUN chown redis:redis /data/* && \
 
 EXPOSE 26379 22121
 
-
-
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 
