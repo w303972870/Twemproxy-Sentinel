@@ -1,4 +1,7 @@
 #!/usr/bin/env sh
+
+echo 1024 > /proc/sys/net/core/somaxconn
+
 if [ "$START" == "redis" ]; then
 
     if [ "$LISTION" == "IP" ]; then

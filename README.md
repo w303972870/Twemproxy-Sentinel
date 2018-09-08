@@ -17,29 +17,29 @@ docker pull w303972870/twemproxy-sentinel
 #### 启动命令示例
 **在本机测试需要指定--net网络，同时同一net网络下端口不要相同**
 ```
-docker run -dit -p 6370:6370 -v /data/redis/logs:/data/redis/logs/ --net host -e START=redis -e REDIS_PORT=6370 -e REDIS_REQUIREPASS=123456 -e LISTION=IP --privileged  docker.io/w303972870/twemproxy-sentinel
-docker run -dit -p 6371:6371 -v /data/redis/logs:/data/redis/logs/ --net host -e START=redis -e REDIS_PORT=6371 -e REDIS_SLAVEOF_IP=192.168.12.2 -e REDIS_SLAVEOF_PORT=6370 -e REDIS_MASTERAUTH=123456 -e REDIS_REQUIREPASS=123456 -e LISTION=IP --privileged  docker.io/w303972870/twemproxy-sentinel
-docker run -dit -p 6372:6372 -v /data/redis/logs:/data/redis/logs/ --net host -e START=redis -e REDIS_PORT=6372 -e REDIS_SLAVEOF_IP=192.168.12.2 -e REDIS_SLAVEOF_PORT=6370 -e REDIS_MASTERAUTH=123456 -e REDIS_REQUIREPASS=123456 -e LISTION=IP --privileged  docker.io/w303972870/twemproxy-sentinel
+docker run -dit -p 6370:6370 -v /data/redis/:/data/ --name redis_6370 --net host -e START=redis -e REDIS_PORT=6370 -e REDIS_REQUIREPASS=123456 -e LISTION=IP docker.io/w303972870/twemproxy-sentinel
+docker run -dit -p 6371:6371 -v /data/redis/:/data/ --name redis_6371 --net host -e START=redis -e REDIS_PORT=6371 -e REDIS_SLAVEOF_IP=192.168.123.2 -e REDIS_SLAVEOF_PORT=6370 -e REDIS_MASTERAUTH=123456 -e REDIS_REQUIREPASS=123456 -e LISTION=IP docker.io/w303972870/twemproxy-sentinel
+docker run -dit -p 6372:6372 -v /data/redis/:/data/ --name redis_6372 --net host -e START=redis -e REDIS_PORT=6372 -e REDIS_SLAVEOF_IP=192.168.123.2 -e REDIS_SLAVEOF_PORT=6370 -e REDIS_MASTERAUTH=123456 -e REDIS_REQUIREPASS=123456 -e LISTION=IP docker.io/w303972870/twemproxy-sentinel
 ```
 ```
-docker run -dit -p 6370:6370 -v /data/redis/logs:/data/redis/logs/ --net host -e START=redis -e REDIS_PORT=6370 -e REDIS_REQUIREPASS=123456 -e LISTION=IP --privileged  docker.io/w303972870/twemproxy-sentinel
-docker run -dit -p 6371:6371 -v /data/redis/logs:/data/redis/logs/ --net host -e START=redis -e REDIS_PORT=6371 -e REDIS_SLAVEOF_IP=192.168.12.3 -e REDIS_SLAVEOF_PORT=6370 -e REDIS_MASTERAUTH=123456 -e REDIS_REQUIREPASS=123456 -e LISTION=IP --privileged  docker.io/w303972870/twemproxy-sentinel
-docker run -dit -p 6372:6372 -v /data/redis/logs:/data/redis/logs/ --net host -e START=redis -e REDIS_PORT=6372 -e REDIS_SLAVEOF_IP=192.168.12.4 -e REDIS_SLAVEOF_PORT=6370 -e REDIS_MASTERAUTH=123456 -e REDIS_REQUIREPASS=123456 -e LISTION=IP --privileged  docker.io/w303972870/twemproxy-sentinel
+docker run -dit -p 6370:6370 -v /data/redis/:/data/ --name redis_6370 --net host -e START=redis -e REDIS_PORT=6370 -e REDIS_REQUIREPASS=123456 -e LISTION=IP docker.io/w303972870/twemproxy-sentinel
+docker run -dit -p 6371:6371 -v /data/redis/:/data/ --name redis_6371 --net host -e START=redis -e REDIS_PORT=6371 -e REDIS_SLAVEOF_IP=192.168.123.3 -e REDIS_SLAVEOF_PORT=6370 -e REDIS_MASTERAUTH=123456 -e REDIS_REQUIREPASS=123456 -e LISTION=IP docker.io/w303972870/twemproxy-sentinel
+docker run -dit -p 6372:6372 -v /data/redis/:/data/ --name redis_6372 --net host -e START=redis -e REDIS_PORT=6372 -e REDIS_SLAVEOF_IP=192.168.123.3 -e REDIS_SLAVEOF_PORT=6370 -e REDIS_MASTERAUTH=123456 -e REDIS_REQUIREPASS=123456 -e LISTION=IP docker.io/w303972870/twemproxy-sentinel
 ```
 ```
-docker run -dit -p 6370:6370 -v /data/redis/logs:/data/redis/logs/ --net host -e START=redis -e REDIS_PORT=6370 -e REDIS_REQUIREPASS=123456 -e LISTION=IP --privileged  docker.io/w303972870/twemproxy-sentinel
-docker run -dit -p 6371:6371 -v /data/redis/logs:/data/redis/logs/ --net host -e START=redis -e REDIS_PORT=6371 -e REDIS_SLAVEOF_IP=192.168.12.3 -e REDIS_SLAVEOF_PORT=6370 -e REDIS_MASTERAUTH=123456 -e REDIS_REQUIREPASS=123456 -e LISTION=IP --privileged  docker.io/w303972870/twemproxy-sentinel
-docker run -dit -p 6372:6372 -v /data/redis/logs:/data/redis/logs/ --net host -e START=redis -e REDIS_PORT=6372 -e REDIS_SLAVEOF_IP=192.168.12.4 -e REDIS_SLAVEOF_PORT=6370 -e REDIS_MASTERAUTH=123456 -e REDIS_REQUIREPASS=123456 -e LISTION=IP --privileged  docker.io/w303972870/twemproxy-sentinel
-```
-
-```
-docker run -dit -p 26379:26379 -v /data/redis/:/data/ --name sentinel --net host -e START=sentinel --privileged twemproxy-sentinel
-docker run -dit  --name twemproxy --net host -p 22121:22121  -v /data/redis/:/data/ -e START=twemproxy  twemproxy-sentinel
+docker run -dit -p 6370:6370 -v /data/redis/:/data/ --name redis_6370 --net host -e START=redis -e REDIS_PORT=6370 -e REDIS_REQUIREPASS=123456 -e LISTION=IP docker.io/w303972870/twemproxy-sentinel
+docker run -dit -p 6371:6371 -v /data/redis/:/data/ --name redis_6371 --net host -e START=redis -e REDIS_PORT=6371 -e REDIS_SLAVEOF_IP=192.168.123.4 -e REDIS_SLAVEOF_PORT=6370 -e REDIS_MASTERAUTH=123456 -e REDIS_REQUIREPASS=123456 -e LISTION=IP docker.io/w303972870/twemproxy-sentinel
+docker run -dit -p 6372:6372 -v /data/redis/:/data/ --name redis_6372 --net host -e START=redis -e REDIS_PORT=6372 -e REDIS_SLAVEOF_IP=192.168.123.4 -e REDIS_SLAVEOF_PORT=6370 -e REDIS_MASTERAUTH=123456 -e REDIS_REQUIREPASS=123456 -e LISTION=IP docker.io/w303972870/twemproxy-sentinel
 ```
 
+```
+docker run -dit -p 26379:26379 -v /data/redis/:/data/ --name sentinel --net host -e START=sentinel --privileged docker.io/w303972870/twemproxy-sentinel
+docker run -dit  --name twemproxy --net host -p 22121:22121  -v /data/redis/:/data/ -e START=twemproxy  docker.io/w303972870/twemproxy-sentinel
+```
+
 
 ```
-docker run -dit -p 26379:26379  -p 22121:22121 -v /data/redis/:/data/ --name twemproxy-sentinel --net host -e START=both twemproxy-sentinel
+docker run -dit -p 26379:26379  -p 22121:22121 -v /data/redis/:/data/ --name twemproxy-sentinel --net host -e START=both docker.io/w303972870/twemproxy-sentinel
 ```
 
 #### 我的/data/redis目录结构如下
@@ -145,9 +145,9 @@ redis_master:
  server_retry_timeout: 10000
  server_failure_limit: 2
  servers:
-  - 192.168.12.2:6370:1
-  - 192.168.12.3:6370:1
-  - 192.168.12.4:6370:1
+  - 192.168.123.2:6370:1
+  - 192.168.123.3:6370:1
+  - 192.168.123.4:6370:1
 
 ```
 
