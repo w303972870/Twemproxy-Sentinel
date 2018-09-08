@@ -32,6 +32,10 @@ if [ "$START" == "both" ]; then
    nutcracker -c /data/conf/redis_master.conf -p /data/conf/redis_master.pid -o /data/logs/redis_master.log -d
 fi
 
+if [ "$START" == "twemproxy" ]; then
+    nutcracker -c /data/conf/redis_master.conf -p /data/conf/redis_master.pid -o /data/logs/redis_master.log 
+fi
+
 if [ "$START" == "sentinel" ] || [ "$START" == "both" ]; then
     sed -i "s/\$SENTINEL_LISTION_SERVER_NAME/$SENTINEL_LISTION_SERVER_NAME/g" /data/conf/sentinel.conf
 	sed -i "s/\$SENTINEL_LISTION_SERVER_IP/$SENTINEL_LISTION_SERVER_IP/g" /data/conf/sentinel.conf
@@ -43,8 +47,5 @@ if [ "$START" == "sentinel" ] || [ "$START" == "both" ]; then
 	redis-server /data/conf/sentinel.conf --sentinel
 fi
 
-if [ "$START" == "twemproxy" ]; then
-    nutcracker -c /data/conf/redis_master.conf -p /data/conf/redis_master.pid -o /data/logs/redis_master.log 
-fi
 
 
