@@ -12,7 +12,7 @@ if [ "$START" == "redis" ]; then
     sed -i "s/protected-mode yes/protected-mode $PROTECTED_MODE/g" /etc/redis.conf ;
     sed -i "s/bind 127\.0\.0\.1/bind $REDIS_BIND_IP/g" /etc/redis.conf ;
     sed -i "s/port 6379/port $REDIS_PORT/g" /etc/redis.conf ;
-    sed -i "s/\/var\/log\/redis\/redis\.log/\/data\/logs\/redis\.log/g" /etc/redis.conf ;
+    sed -i "s/\/var\/log\/redis\/redis\.log/\/data\/logs\/redis_$REDIS_PORT\.log/g" /etc/redis.conf ;
     if [ "$REDIS_REQUIREPASS" != "0" ]; then
         echo 1;
         sed -i "s/\# requirepass foobared/requirepass $REDIS_REQUIREPASS/g" /etc/redis.conf ;
