@@ -26,6 +26,7 @@ if [ "$START" == "redis" ]; then
             sed -i "s/# slaveof <masterip> <masterport>/slaveof $REDIS_SLAVEOF_IP $REDIS_SLAVEOF_PORT/g" /etc/redis.conf ;
         fi
     fi
+    touch /data/logs/redis_$REDIS_PORT.log && chmod 777 /data/logs/redis_$REDIS_PORT.log
     redis-server /etc/redis.conf
 fi
 
